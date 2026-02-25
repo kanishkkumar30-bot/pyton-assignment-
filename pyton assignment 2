@@ -14,7 +14,7 @@ while attempts > 0:
     guess = input("Your guess: ").lower()
     
     if guess == word:
-        print("Correct! You win 🎉")
+        print("Correct! You win ")
         break
     else:
         attempts -= 1
