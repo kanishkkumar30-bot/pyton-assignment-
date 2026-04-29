@@ -1,0 +1,51 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+np.random.seed(0)
+students = [f"Student_{i+1}" for i in range(20)]
+subjects = ["Math", "Science", "English", "History", "Computer"]
+
+data = np.random.randint(40, 100, size=(20, 5))
+df = pd.DataFrame(data, columns=subjects)
+df.insert(0, "Name", students)
+
+stats = df[subjects].agg(['mean', 'median', 'std'])
+df["Total"] = df[subjects].sum(axis=1)
+
+top_students = df.nlargest(3, "Total")
+low_students = df.nsmallest(3, "Total")
+
+subject_avg = df[subjects].mean()
+
+print("Statistical Summary:\n", stats)
+print("\nTop Performers:\n", top_students[["Name", "Total"]])
+print("\nLow Performers:\n", low_students[["Name", "Total"]])
+
+plt.figure()
+subject_avg.plot(kind='bar')
+plt.title("Average Marks per Subject")
+plt.xlabel("Subjects")
+plt.ylabel("Average Marks")
+plt.show()
+
+plt.figure()
+plt.plot(df["Name"], df["Total"], marker='o')
+plt.xticks(rotation=45)
+plt.title("Total Marks of Students")
+plt.xlabel("Students")
+plt.ylabel("Total Marks")
+plt.show()
+
+plt.figure()
+plt.hist(df["Total"])
+plt.title("Distribution of Total Marks")
+plt.xlabel("Total Marks")
+plt.ylabel("Frequency")
+plt.show()
+
+plt.figure()
+subject_avg.plot(kind='pie', autopct='%1.1f%%')
+plt.title("Subject Contribution (Average Marks)")
+plt.ylabel("")
+plt.show()
