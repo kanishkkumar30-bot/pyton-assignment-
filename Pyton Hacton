@@ -1,0 +1,32 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+data = [
+ [35,25,66,19],[14,56,24,39],[99,41,35,51],[63,4,92,15],
+ [58,99,8,28],[85,63,74,1],[60,77,36,43],[21,26,4,43],
+ [17,30,97,73],[83,2,47,55],[85,70,48,18],[82,80,66,29],
+ [57,29,49,50],[77,80,74,22],[67,65,16,35],[90,99,1,92],
+ [84,83,18,38],[1,45,35,49],[86,36,90,18],[30,82,98,41],
+ [91,50,57,7],[52,27,70,29],[35,12,73,79],[48,47,10,9],
+ [93,92,46,41]
+]
+
+df = pd.DataFrame(data, columns=["C1","C2","C3","C4"])
+df = df.drop_duplicates().fillna(df.mean(numeric_only=True))
+
+nums = df.columns
+means = np.mean(df[nums], axis=0)
+
+plt.hist(df[nums[0]], bins=10, color='skyblue', edgecolor='black')
+plt.title(f"Distribution of {nums[0]}")
+plt.show()
+
+plt.bar(nums, means, color='orange')
+plt.title("Column Means")
+plt.xticks(rotation=45)
+plt.show()
+
+print("Rows:", df.shape[0], "Cols:", df.shape[1])
+print("Highest mean:", nums[np.argmax(means)])
+print("Lowest mean:", nums[np.argmin(means)])
